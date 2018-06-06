@@ -11,6 +11,7 @@ public class Exercise2 {
 
     @FunctionalInterface
     private interface Multiplier<T> {
+
         T multiply(T value, int multiplier);
 
         default T twice(T t) {
@@ -28,20 +29,28 @@ public class Exercise2 {
 
     @Test
     public void implementsIntegerMultiplierUsingAnonymousClass() {
-        Multiplier<Integer> multiplier = null;
+        Multiplier<Integer> multiplier = new Multiplier<Integer>() {
+            @Override
+            public Integer multiply(Integer value, int multiplier) {
+                return value * multiplier;
+            }
+        };
 
         testIntegerMultiplier(multiplier);
     }
 
     @Test
     public void implementsMultiplierUsingStatementLambda() {
-        Multiplier<Integer> multiplier = null;
+        Multiplier<Integer> multiplier = (a, b) -> {
+            return a * b;
+        };
 
-        testIntegerMultiplier(multiplier);    }
+        testIntegerMultiplier(multiplier);
+    }
 
     @Test
     public void implementsIntegerMultiplierUsingExpressionLambda() {
-        Multiplier<Integer> multiplier = null;
+        Multiplier<Integer> multiplier = (a, b) -> a * b;
 
         testIntegerMultiplier(multiplier);
     }
@@ -56,7 +65,7 @@ public class Exercise2 {
 
     @Test
     public void implementsStringMultiplierUsingClassMethodReference() {
-        Multiplier<String> multiplier = null;
+        Multiplier<String> multiplier = Exercise2::multiplyString;
 
         assertEquals("aaa", multiplier.multiply("a", 3));
         assertEquals("", multiplier.multiply("qwerty", 0));
@@ -77,7 +86,7 @@ public class Exercise2 {
 
     @Test
     public void implementsStringMultiplierUsingObjectMethodReference() {
-        Multiplier<String> multiplier = null;
+        Multiplier<String> multiplier = this::stringSumWithDelimiter;
 
         assertEquals("a-a-a", multiplier.multiply("a", 3));
         assertEquals("", multiplier.multiply("qwerty", 0));
