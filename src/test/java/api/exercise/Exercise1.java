@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +30,7 @@ public class Exercise1 {
         candidates.put(ivan, Status.PENDING);
         candidates.put(helen, Status.PENDING);
 
-        // TODO реализация
+        candidates.replaceAll((p, s) -> p.getAge() > 21 ? Status.ACCEPTED : Status.DECLINED);
 
         assertEquals(Status.ACCEPTED, candidates.get(ivan));
         assertEquals(Status.ACCEPTED, candidates.get(helen));
@@ -50,7 +51,8 @@ public class Exercise1 {
         candidates.put(new Person("b", "c", 16), Status.PENDING);
         candidates.put(new Person("b", "c", 5), Status.PENDING);
 
-        // TODO реализация
+        candidates.keySet().removeIf(p -> p.getAge() < 21);
+        candidates.replaceAll((p, s) -> Status.ACCEPTED);
 
         Map<Person, Status> expected = new HashMap<>();
         expected.put(ivan, Status.ACCEPTED);
@@ -67,11 +69,11 @@ public class Exercise1 {
         candidates.put(alex, Status.PENDING);
         candidates.put(ivan, Status.PENDING);
 
-        // TODO реализация
+        Function<Person, Status> personToStatus = p -> candidates.getOrDefault(p, Status.UNKNOWN);
 
-        Status alexStatus = null;
-        Status ivanStatus = null;
-        Status helenStatus = null;
+        Status alexStatus = personToStatus.apply(alex);
+        Status ivanStatus = personToStatus.apply(ivan);
+        Status helenStatus = personToStatus.apply(helen);
 
         assertEquals(Status.PENDING, alexStatus);
         assertEquals(Status.PENDING, ivanStatus);
@@ -93,7 +95,7 @@ public class Exercise1 {
         newValues.put(alex, Status.DECLINED);
         newValues.put(helen, Status.PENDING);
 
-        // TODO реализация
+        oldValues.forEach(newValues::putIfAbsent);
 
         assertEquals(Status.DECLINED, newValues.get(alex));
         assertEquals(Status.ACCEPTED, newValues.get(ivan));
