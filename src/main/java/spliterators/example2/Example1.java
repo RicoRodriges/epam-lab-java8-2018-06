@@ -11,15 +11,16 @@ import java.util.stream.StreamSupport;
 public class Example1 {
 
     public static void main(String[] args) {
-        int[] data = {1, 2, 3, 4, 5, 6};
+//        int[] data = IntStream.rangeClosed(0, 100)
+//                              .filter(value -> (value & 1) == 0)
+//                              .toArray();
 
-        Arrays.stream(data)
-              .forEachOrdered(System.out::println);
+        int[] data = {0, 1, 2, 3, 4, 5, 6, 7};
 
         IntArraySpliterator spliterator = new IntArraySpliterator(data);
-        StreamSupport.intStream(spliterator, false)
-                     .forEachOrdered(System.out::println);
-        // TODO create a Stream
+
+        StreamSupport.intStream(spliterator, true)
+                     .forEach(System.out::println);
     }
 
     private static void createSpliterator() {
@@ -36,11 +37,11 @@ public class Example1 {
 
 
         stream.forEachOrdered(seconds -> {
-                  try {
-                      TimeUnit.SECONDS.sleep(seconds);
-                  } catch (InterruptedException e) {
-                      e.printStackTrace();
-                  }
-              });
+            try {
+                TimeUnit.SECONDS.sleep(seconds);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
