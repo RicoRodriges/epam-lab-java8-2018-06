@@ -1,6 +1,8 @@
 package spliterators.example4;
 
-public class IndexedValue<T> extends Pair<Long, T> {
+import org.jetbrains.annotations.NotNull;
+
+public class IndexedValue<T> extends Pair<Long, T> implements Comparable<IndexedValue<T>> {
 
     public IndexedValue(Long index, T value) {
         super(index, value);
@@ -13,5 +15,10 @@ public class IndexedValue<T> extends Pair<Long, T> {
     @Override
     public String toString() {
         return "[" + getValue1() + "] = " + getValue2();
+    }
+
+    @Override
+    public int compareTo(@NotNull IndexedValue<T> other) {
+        return Long.compare(getIndex(), other.getIndex());
     }
 }

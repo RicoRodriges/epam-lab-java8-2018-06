@@ -25,12 +25,12 @@ public interface AdvancedStream<T> extends Stream<T> {
     AdvancedStream<IndexedValue<T>> zipWithIndex();
 
     /**
+     * a.dropWhile(sym -> sym < 'D') => {D, E, F}
+     */
+    AdvancedStream<T> dropWhile(Predicate<? super T> predicate);
+
+    /**
      * a.takeWhile(sym -> sym < 'D') => {A, B, C}
      */
     AdvancedStream<T> takeWhile(Predicate<? super T> predicate);
-
-    /**
-     * a.takeWhile(sym -> sym < 'D') => {D, E, F}
-     */
-    AdvancedStream<T> dropWhile(Predicate<? super T> predicate);
 }

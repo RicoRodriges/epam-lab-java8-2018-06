@@ -20,23 +20,23 @@ public class AdvancedStreamImpl<T> implements AdvancedStream<T> {
     }
 
     @Override
-    public <U> AdvancedStream<Pair<T, U>> zip(Stream<U> another) {
-        return null;
-    }
-
-    @Override
     public AdvancedStream<IndexedValue<T>> zipWithIndex() {
-        return null;
+        return new AdvancedStreamImpl<>(StreamSupport.stream(new IndexedSpliterator<>(original.spliterator()), original.isParallel()));
     }
 
     @Override
-    public AdvancedStream<T> takeWhile(Predicate<? super T> predicate) {
-        return null;
+    public <U> AdvancedStream<Pair<T, U>> zip(Stream<U> another) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public AdvancedStream<T> dropWhile(Predicate<? super T> predicate) {
-        return null;
+        return new AdvancedStreamImpl<>(StreamSupport.stream(new DropWhileSpliterator<>(original.spliterator(), predicate), false));
+    }
+
+    @Override
+    public AdvancedStream<T> takeWhile(Predicate<? super T> predicate) {
+        throw new UnsupportedOperationException();
     }
 
     // Delegate methods
