@@ -21,7 +21,9 @@ public class AdvancedStreamImpl<T> implements AdvancedStream<T> {
 
     @Override
     public AdvancedStream<T> takeWhile(Predicate<? super T> predicate) {
-        throw new UnsupportedOperationException();
+        return new AdvancedStreamImpl<>(
+            StreamSupport.stream(
+                new TakeWhileSpliterator<>(original.spliterator(), predicate), false));
     }
 
     // Delegate methods
